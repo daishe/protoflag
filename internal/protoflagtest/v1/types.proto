@@ -1,0 +1,104 @@
+// Copyright 2026 Marek Dalewski
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package protoflagtest.v1;
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.FieldOptions {
+  string usage = 0x706674; // 0x706674 - pft - proto flag test
+}
+
+message SimpleMessage {
+  string foo = 1;
+  string bar = 2;
+  string baz = 3;
+}
+
+message SimpleMessageWithUsage {
+  string foo = 1 [(usage) = "Usage of flag associated with foo field"];
+  string bar = 2 [(usage) = "Usage of flag associated with bar field"];
+  string baz = 3 [(usage) = "Usage of flag associated with baz field"];
+}
+
+message Top {
+  string value = 1;
+  Middle middle = 2;
+}
+
+message Middle {
+  string value = 1;
+  Bottom bottom = 2;
+}
+
+message Bottom {
+  string value = 1;
+  string value_with_long_name = 2;
+}
+
+message TestBase {
+  bool value_bool = 1;
+  int32 value_int32 = 2;
+  sint32 value_sint32 = 3;
+  sfixed32 value_sfixed32 = 4;
+  uint32 value_uint32 = 5;
+  fixed32 value_fixed32 = 6;
+  int64 value_int64 = 7;
+  sint64 value_sint64 = 8;
+  sfixed64 value_sfixed64 = 9;
+  uint64 value_uint64 = 10;
+  fixed64 value_fixed64 = 11;
+  float value_float = 12;
+  double value_double = 13;
+  string value_string = 14;
+  bytes value_bytes = 15;
+  TestEnum value_enum = 16;
+  TestMessage value_message = 17;
+  map<string, string> value_map = 18;
+
+  repeated bool repeated_bool = 21;
+  repeated int32 repeated_int32 = 22;
+  repeated sint32 repeated_sint32 = 23;
+  repeated sfixed32 repeated_sfixed32 = 24;
+  repeated uint32 repeated_uint32 = 25;
+  repeated fixed32 repeated_fixed32 = 26;
+  repeated int64 repeated_int64 = 27;
+  repeated sint64 repeated_sint64 = 28;
+  repeated sfixed64 repeated_sfixed64 = 29;
+  repeated uint64 repeated_uint64 = 30;
+  repeated fixed64 repeated_fixed64 = 31;
+  repeated float repeated_float = 32;
+  repeated double repeated_double = 33;
+  repeated string repeated_string = 34;
+  repeated bytes repeated_bytes = 35;
+  repeated TestEnum repeated_enum = 36;
+  repeated TestMessage repeated_message = 37;
+
+  int32 value_int32_skip = 40;
+  TestBase value_message_skip = 41;
+  repeated int32 repeated_int32_skip = 50;
+  repeated TestBase value_message_skip = 51;
+}
+
+enum TestEnum {
+  TEST_ENUM_UNSPECIFIED = 0;
+  TEST_ENUM_FIRST = 1;
+  TEST_ENUM_SECOND = 2;
+}
+
+message TestMessage {
+  string value = 1;
+}

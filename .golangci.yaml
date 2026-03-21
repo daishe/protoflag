@@ -1,0 +1,139 @@
+version: "2"
+linters:
+  enable:
+  - asasalint
+  - asciicheck
+  - bidichk
+  - bodyclose
+  - canonicalheader
+  - contextcheck
+  - copyloopvar
+  - decorder
+  - dogsled
+  - dupl
+  - dupword
+  - durationcheck
+  - err113
+  - errcheck
+  - errchkjson
+  - errname
+  - errorlint
+  - exhaustive
+  - exptostd
+  - fatcontext
+  - forcetypeassert
+  - funcorder
+  - gocheckcompilerdirectives
+  - gochecknoglobals
+  - gochecknoinits
+  - gochecksumtype
+  - gocognit
+  - goconst
+  - gocritic
+  - gocyclo
+  - godot
+  - godox
+  - gomoddirectives
+  - goprintffuncname
+  - gosec
+  - gosmopolitan
+  - govet
+  - iface
+  - importas
+  - ineffassign
+  - intrange
+  - loggercheck
+  - maintidx
+  - makezero
+  - mirror
+  - misspell
+  - musttag
+  - nakedret
+  - nestif
+  - nilerr
+  - nilnesserr
+  - nilnil
+  - noctx
+  - nolintlint
+  - nosprintfhostport
+  - paralleltest
+  - perfsprint
+  - prealloc
+  - protogetter
+  - reassign
+  - recvcheck
+  - revive
+  - rowserrcheck
+  - spancheck
+  - sqlclosecheck
+  - staticcheck
+  - tagalign
+  - tagliatelle
+  - testableexamples
+  - testifylint
+  - testpackage
+  - thelper
+  - tparallel
+  - unconvert
+  - unparam
+  - unused
+  - usestdlibvars
+  - usetesting
+  - wastedassign
+  - whitespace
+
+  disable:
+  - cyclop
+  - err113
+  - funcorder
+  - funlen
+  - inamedparam
+  - interfacebloat
+  - ireturn
+  - lll
+  - mnd
+  - predeclared
+  - varnamelen
+  - wsl
+
+  settings:
+    gocritic:
+      enable-all: true
+      disabled-checks:
+      - builtinShadow
+    revive:
+      rules:
+      - name: redefines-builtin-id
+        disabled: true
+
+  exclusions:
+    generated: strict
+    warn-unused: true
+    presets:
+    - comments
+    - common-false-positives
+    - legacy
+    - std-error-handling
+    rules:
+    - path: _test\.go
+      linters:
+      - dupl
+      - forcetypeassert
+    - path: _test\.go
+      source: 'func Test'
+      linters:
+      - maintidx
+    - path: internal/genreflect/
+      linters:
+      - gochecknoglobals
+    - text: 'replacement .* github\.com/daishe/protoflag'
+      linters:
+      - gomoddirectives
+
+formatters:
+  enable:
+  - gofmt
+  exclusions:
+    warn-unused: true
+    generated: strict
+    paths: []

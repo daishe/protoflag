@@ -1,0 +1,10 @@
+version: v2
+modules:
+- path: examples
+- path: internal
+breaking:
+  use:
+  - FILE
+lint:
+  use:
+  - STANDARD

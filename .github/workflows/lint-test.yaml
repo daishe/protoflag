@@ -1,0 +1,68 @@
+name: "Lint & test"
+
+on:
+  push:
+    branches:
+    - main
+    - master
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  go_version: "^1.26.1"
+
+jobs:
+  test:
+    name: "Test"
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Checkout"
+      uses: actions/checkout@v5
+    - name: "Setup Go"
+      uses: actions/setup-go@v5
+      with:
+        go-version: ${{ env.go_version }}
+    - name: "Test project"
+      run: make test
+
+  lint:
+    name: "Lint"
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Checkout"
+      uses: actions/checkout@v5
+    - name: "Setup Go"
+      uses: actions/setup-go@v5
+      with:
+        go-version: ${{ env.go_version }}
+    - name: "Lint Go code (with make target)"
+      run: make lint
+    - name: "Lint Go code (with dedicated action)"
+      uses: golangci/golangci-lint-action@v8
+      with:
+        verify: true
+        version: latest
+
+  check_tidy:
+    name: "Check `make tidy`"
+    runs-on: "ubuntu-latest"
+    steps:
+    - name: "Checkout"
+      uses: actions/checkout@v5
+    - name: "Setup Go"
+      uses: actions/setup-go@v5
+      with:
+        go-version: ${{ env.go_version }}
+    - name: "Check if `make tidy` has been run properly"
+      run: |
+        make tidy
+        if ! (git update-index --refresh > /dev/null && git diff-index --quiet HEAD --); then
+          echo 'ERROR: One or more go.mod or go.sum files are outdated.' >&2
+          echo 'Please update go.mod and go.sum files by running' >&2
+          echo '    make tidy' >&2
+          echo 'before committing changes.' >&2
+        fi
